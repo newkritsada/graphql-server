@@ -49,7 +49,7 @@ mongoose.connect(
   )
 
   await server.start()
-  server.applyMiddleware({ app })
+  server.applyMiddleware({ path:"/graphql",app })
 
   httpServer.listen(config.port, () => console.log(`Server is now running on http://localhost:${config.port}/graphql`))
 })()
