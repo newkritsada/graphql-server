@@ -1,5 +1,5 @@
 import RoomModel from '../../models/RoomModel'
-import subscription from '../..//helpers/subscription'
+import subscription from '../../helpers/subscription'
 import { CREATE_ROOM } from '../subscriptions/roomSubscription'
 
 export const createRoom = async (root, { input }) => {

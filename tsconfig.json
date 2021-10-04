@@ -12,12 +12,15 @@
     "strictNullChecks": false,
     "noImplicitThis": true,
     "alwaysStrict": true,
-    "noUnusedLocals": true,
+    "noUnusedLocals": false,
     "noUnusedParameters": false,
     "noImplicitReturns": true,
     "noFallthroughCasesInSwitch": true,
     "moduleResolution": "node",
     "baseUrl": ".",
+    "paths": {
+      "*": ["*", "src/*"]
+    },
     "allowSyntheticDefaultImports": true,
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
@@ -39,5 +42,5 @@
       "esnext.asynciterable"
     ]
   },
-  "include": ["src"]
+  "include": ["src","src/*"]
 }

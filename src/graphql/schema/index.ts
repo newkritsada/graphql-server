@@ -1,50 +1,18 @@
-import { gql } from 'apollo-server-express'
+import jwt from 'jsonwebtoken'
 import resolvers from '../resolvers/index'
+import room from './room'
+import user from './user'
+import { TOKEN_TYPE } from './../../helpers/authorization'
+import ErrorMessage from './../../helpers/error'
+import { TokenPayload } from './../../helpers/interface'
+import config from './../..//config'
 
-const typeDefs = gql`
-  type Room {
-    _id: ID
-    name: String
-    summary: String
-    description: String
-    room_type: String
-    maximum_nights: Int
-    minimum_nights: Int
-    beds: Int
-    accommodates: Int
-    price: Float
-    cleaning_fee: Float
-  }
-  input RoomInput {
-    name: String
-    summary: String
-    description: String
-    room_type: String
-    maximum_nights: Int
-    minimum_nights: Int
-    beds: Int
-    accommodates: Int
-    price: Float
-    cleaning_fee: Float
-  }
-
-  type Query {
-    room(_id: ID!): Room
-    rooms: [Room]
-  }
-  type Mutation {
-    createRoom(input: RoomInput): Room
-    updateRoom(_id: ID!, input: RoomInput): Room
-    deleteRoom(_id: ID!): Room
-  }
-  type Subscription {
-    rooms: [Room]
-  }
-`
+const typeDefs = [room, user]
 
 const schema = {
   typeDefs,
   resolvers,
+  
 }
 
 export default schema
