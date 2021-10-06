@@ -21,6 +21,7 @@ const typeDefs = gql`
     startDate: Date
     endDate: Date
     groupName: String
+    order: Number
   }
 
   type PayloadGroup {
