@@ -1,16 +1,19 @@
+import { PAYLOAD_STAATUS } from '../../config/payloadStatus'
 import ErrorMessage from '../../helpers/error'
 import TodoModel, { Todo } from '../../models/TodoModel'
 
 export const createTodo = async (root, args) => {
   const { groupName, input } = args
+  if (input.startDate > input.endDate) ErrorMessage('startDate must not be more than endDate')
   const todoMaxOrder = await TodoModel.findOne({ groupName }).sort('-order')
-  input.order = todoMaxOrder.order + 1
-  return await TodoModel.create({ ...input, groupName })
+  input.order = todoMaxOrder ? todoMaxOrder.order + 1 : 1
+  return { status: PAYLOAD_STAATUS.SUCCESS, payload: await TodoModel.create({ ...input, groupName }) }
 }
 
 export const updateTodo = async (root, args) => {
   const { todoId, groupName, order, input } = args
-  // If not authenticated throw error
+  
+  if (input.startDate > input.endDate) ErrorMessage('startDate must not be more than endDate')
   const todoList = await TodoModel.find({ groupName, order: { $gte: order } })
 
   if (todoList.length > 0) {
@@ -26,7 +29,7 @@ export const updateTodo = async (root, args) => {
     { new: true }
   )
 
-  return newTodo
+  return { status: PAYLOAD_STAATUS.SUCCESS, payload: newTodo }
 }
 
 export const deleteTodo = async (root, { todoId }) => {
@@ -42,5 +45,5 @@ export const deleteTodo = async (root, { todoId }) => {
     )
   }
   const afterDeleteTodo = await TodoModel.findByIdAndRemove(todoId)
-  return afterDeleteTodo
+  return { status: PAYLOAD_STAATUS.SUCCESS, payload: afterDeleteTodo }
 }
