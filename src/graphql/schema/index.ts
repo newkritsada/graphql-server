@@ -5,6 +5,7 @@ import todo from './todo'
 
 const intitialType = gql`
   scalar Date
+  scalar Number
 
   enum PayloadStatus {
     SUCCESS
