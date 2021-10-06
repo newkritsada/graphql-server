@@ -1,28 +1,39 @@
 import { gql } from 'apollo-server'
 
 const typeDefs = gql`
-  enum PayloadStatus {
-    SUCCESS
-    ERROR
+  enum PiorityEnum {
+    LOW
+    MEDIUM
+    HIGHT
+    CRITICAL
   }
 
-  type Group {
+  type GroupType {
     _id: ID
     title: String
   }
 
   type TodoType {
     _id: ID
+    topic: String
     detail: String
+    piority: PiorityEnum
+    startDate: Date
+    endDate: Date
     groupName: String
   }
 
   type PayloadGroup {
     status: PayloadStatus
-    payload: Group
+    payload: GroupType
   }
 
   type PayloadTodo {
+    status: PayloadStatus
+    payload: TodoType
+  }
+
+  type PayloadTodoList {
     status: PayloadStatus
     payload: [TodoType]
   }
@@ -32,18 +43,22 @@ const typeDefs = gql`
   }
 
   input TodoInput {
+    topic: String
     detail: String
+    piority: PiorityEnum
+    startDate: Date
+    endDate: Date
   }
 
   type Query {
-    getTodoList(groupName: String): [TodoType]
-    getTodoById(todoId: String): TodoType
+    getTodoList(groupName: String): PayloadTodoList
+    getTodoById(todoId: String): PayloadTodo
   }
 
   type Mutation {
-    createTodo(groupName: String!, input: TodoInput): TodoType
-    updateTodo(todoId: String!, groupName: String!, input: TodoInput): TodoType
-    deleteTodo(todoId: String!): TodoType
+    createTodo(groupName: String!, input: TodoInput): PayloadTodo
+    updateTodo(todoId: String!, groupName: String!, order: String, input: TodoInput): PayloadTodo
+    deleteTodo(todoId: String!): PayloadTodo
   }
 `
 

@@ -1,5 +1,5 @@
 import { createTodo, updateTodo, deleteTodo } from './../mutations/todoMutation'
-import { getTodoList,getTodoById } from './../queries/todoQuery'
+import { getTodoList, getTodoById } from './../queries/todoQuery'
 
 /**
  * User Queries
@@ -10,7 +10,7 @@ import { getTodoList,getTodoById } from './../queries/todoQuery'
  */
 
 export default {
-  Query: { getTodoList,getTodoById },
+  Query: { getTodoList, getTodoById },
   Mutation: {
     createTodo,
     updateTodo,
