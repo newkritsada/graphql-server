@@ -15,7 +15,7 @@ export interface Todo {
 
 const PIORITY = {
   LOW: 'LOW',
-  MEDIUM: 'MIDIUM',
+  MEDIUM: 'MEDIUM',
   HIGHT: 'HIGHT',
   CRITICAL: 'CRITICAL',
 }
