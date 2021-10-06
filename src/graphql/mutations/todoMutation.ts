@@ -109,7 +109,12 @@ export const updateTodo = async (root, args) => {
     {
       ...input,
       groupName,
-      order: newTodoList && order > newTodoList.order ? newTodoList.order + 1 : order,
+      order:
+        newTodoList && !newTodoList._id.equals(oldTodo._id)
+          ? order > newTodoList.order
+            ? newTodoList.order + 1
+            : order
+          : 1,
     },
     { new: true }
   )
