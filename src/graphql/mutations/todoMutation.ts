@@ -1,4 +1,4 @@
-import { PAYLOAD_STAATUS } from '../../config/payloadStatus'
+import { PAYLOAD_STATUS } from '../../config/payloadStatus'
 import ErrorMessage from '../../helpers/error'
 import TodoModel, { Todo } from '../../models/TodoModel'
 
@@ -11,7 +11,7 @@ export const createTodo = async (root, args) => {
   input.order = todoMaxOrder ? todoMaxOrder.order + 1 : 1
   const newTodo = await TodoModel.create({ ...input, groupId })
   const todo = await TodoModel.findById(newTodo._id).populate('groupInfo')
-  return { status: PAYLOAD_STAATUS.SUCCESS, payload: todo }
+  return { status: PAYLOAD_STATUS.SUCCESS, payload: todo }
 }
 
 export const updateTodo = async (root, args) => {
@@ -121,7 +121,7 @@ export const updateTodo = async (root, args) => {
     { new: true }
   ).populate('groupInfo')
 
-  return { status: PAYLOAD_STAATUS.SUCCESS, payload: newTodo }
+  return { status: PAYLOAD_STATUS.SUCCESS, payload: newTodo }
 }
 
 export const deleteTodo = async (root, { todoId }) => {
@@ -137,5 +137,5 @@ export const deleteTodo = async (root, { todoId }) => {
     )
   }
   const afterDeleteTodo = await TodoModel.findByIdAndRemove(todoId, { new: true }).populate('groupInfo')
-  return { status: PAYLOAD_STAATUS.SUCCESS, payload: afterDeleteTodo }
+  return { status: PAYLOAD_STATUS.SUCCESS, payload: afterDeleteTodo }
 }

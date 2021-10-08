@@ -20,15 +20,18 @@ const PRIORITY = {
   CRITICAL: 'CRITICAL',
 }
 
-const todoSchema = new Schema<Todo>({
-  topic: { type: String, trim: true },
-  detail: { type: String },
-  priority: { type: String, trim: true, enum: [PRIORITY.LOW, PRIORITY.MEDIUM, PRIORITY.HIGHT, PRIORITY.CRITICAL] },
-  startDate: { type: Date },
-  endDate: { type: Date },
-  groupId: { type: Schema.Types.ObjectId },
-  order: { type: Number },
-})
+const todoSchema = new Schema<Todo>(
+  {
+    topic: { type: String, trim: true },
+    detail: { type: String },
+    priority: { type: String, trim: true, enum: [PRIORITY.LOW, PRIORITY.MEDIUM, PRIORITY.HIGHT, PRIORITY.CRITICAL] },
+    startDate: { type: Date },
+    endDate: { type: Date },
+    groupId: { type: Schema.Types.ObjectId },
+    order: { type: Number },
+  },
+  { timestamps: true }
+)
 
 todoSchema.virtual('groupInfo', {
   ref: 'groups',

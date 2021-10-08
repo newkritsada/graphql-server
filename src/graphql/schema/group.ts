@@ -1,11 +1,12 @@
 import { gql } from 'apollo-server'
 
 const typeDefs = gql`
-
   type GroupType {
     _id: ID
     title: String
     todoList: [TodoType]
+    projectId: String
+    projectDetail: ProjectType
   }
 
   type PayloadGroup {

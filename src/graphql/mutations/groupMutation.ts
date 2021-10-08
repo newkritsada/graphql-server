@@ -1,4 +1,4 @@
-import { PAYLOAD_STAATUS } from '../../config/payloadStatus'
+import { PAYLOAD_STATUS } from '../../config/payloadStatus'
 import ErrorMessage from '../../helpers/error'
 import GroupModel, { Group } from '../../models/GroupModel'
 
@@ -6,7 +6,7 @@ export const createGroup = async (root, args) => {
   const { input } = args
   const newGroup = await GroupModel.create({ ...input })
   const group = await GroupModel.findById(newGroup._id).populate({ path: 'todoList', options: { sort: { order: 1 } } })
-  return { status: PAYLOAD_STAATUS.SUCCESS, payload: group }
+  return { status: PAYLOAD_STATUS.SUCCESS, payload: group }
 }
 
 export const updateGroup = async (root, args) => {
@@ -22,7 +22,7 @@ export const updateGroup = async (root, args) => {
     { new: true }
   ).populate({ path: 'todoList', options: { sort: { order: 1 } } })
 
-  return { status: PAYLOAD_STAATUS.SUCCESS, payload: newGroup }
+  return { status: PAYLOAD_STATUS.SUCCESS, payload: newGroup }
 }
 
 export const deleteGroup = async (root, { groupId }) => {
@@ -33,5 +33,5 @@ export const deleteGroup = async (root, { groupId }) => {
     path: 'todoList',
     options: { sort: { order: 1 } },
   })
-  return { status: PAYLOAD_STAATUS.SUCCESS, payload: afterDeleteGroup }
+  return { status: PAYLOAD_STATUS.SUCCESS, payload: afterDeleteGroup }
 }

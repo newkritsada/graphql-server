@@ -1,4 +1,4 @@
-import { PAYLOAD_STAATUS } from '../../config/payloadStatus'
+import { PAYLOAD_STATUS } from '../../config/payloadStatus'
 import TodoModel from '../../models/TodoModel'
 
 export const getTodoList = async (root, { groupId, topic }) => {
@@ -8,10 +8,10 @@ export const getTodoList = async (root, { groupId, topic }) => {
       .sort({ order: 1 })
       .populate('groupInfo')
   else todoList = await TodoModel.find().sort({ order: 1 }).populate('groupInfo')
-  return { status: PAYLOAD_STAATUS.SUCCESS, payload: todoList }
+  return { status: PAYLOAD_STATUS.SUCCESS, payload: todoList }
 }
 
 export const getTodoById = async (root, { todoId }) => {
   const todo = await TodoModel.findById(todoId).populate('groupInfo')
-  return { status: PAYLOAD_STAATUS.SUCCESS, payload: todo }
+  return { status: PAYLOAD_STATUS.SUCCESS, payload: todo }
 }

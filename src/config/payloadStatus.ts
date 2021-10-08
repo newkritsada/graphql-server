@@ -1,4 +1,4 @@
-export const PAYLOAD_STAATUS = {
+export const PAYLOAD_STATUS = {
   SUCCESS: 'SUCCESS',
   ERROR: 'ERROR',
 }
