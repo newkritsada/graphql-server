@@ -3,6 +3,7 @@ import resolvers from '../resolvers/index'
 import user from './user'
 import todo from './todo'
 import group from './group'
+import project from './project'
 
 const intitialType = gql`
   scalar Date
@@ -26,7 +27,7 @@ const intitialType = gql`
   }
 `
 
-const typeDefs = [intitialType, user, todo, group]
+const typeDefs = [intitialType, user, todo, group,project]
 
 const schema = {
   typeDefs,
