@@ -44,7 +44,7 @@ const typeDefs = gql`
   }
 
   type Query {
-    getTodoList(groupId: String): PayloadTodoList
+    getTodoList(groupId: String, topic: String): PayloadTodoList
     getTodoById(todoId: String): PayloadTodo
   }
 
