@@ -8,11 +8,6 @@ const typeDefs = gql`
     CRITICAL
   }
 
-  type GroupType {
-    _id: ID
-    title: String
-  }
-
   type TodoType {
     _id: ID
     topic: String
@@ -21,6 +16,8 @@ const typeDefs = gql`
     startDate: Date
     endDate: Date
     groupName: String
+    groupId: String
+    groupInfo: GroupType
     order: Number
   }
 
@@ -39,10 +36,6 @@ const typeDefs = gql`
     payload: [TodoType]
   }
 
-  input GroupInput {
-    title: String
-  }
-
   input TodoInput {
     topic: String
     detail: String
@@ -57,8 +50,8 @@ const typeDefs = gql`
   }
 
   type Mutation {
-    createTodo(groupName: String!, input: TodoInput): PayloadTodo
-    updateTodo(todoId: String!, groupName: String!, order: Number!, input: TodoInput): PayloadTodo
+    createTodo(groupName: String!, groupId: String!, input: TodoInput): PayloadTodo
+    updateTodo(todoId: String!, groupName: String!, groupId: String!, order: Number!, input: TodoInput): PayloadTodo
     deleteTodo(todoId: String!): PayloadTodo
   }
 `

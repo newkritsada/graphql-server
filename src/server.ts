@@ -1,4 +1,3 @@
-import jwt from 'jsonwebtoken'
 import { createServer } from 'http'
 import { execute, subscribe } from 'graphql'
 import { SubscriptionServer } from 'subscriptions-transport-ws'
@@ -7,9 +6,6 @@ import express from 'express'
 import { ApolloServer } from 'apollo-server-express'
 import schema from './graphql/schema'
 import config from './config'
-import { TokenPayload } from './helpers/interface'
-import ErrorMessage from './helpers/error'
-import { TOKEN_TYPE } from './helpers/authorization'
 const mongoose = require('mongoose')
 // import mongoose from 'mongoose'
 mongoose.connect(
@@ -49,7 +45,7 @@ mongoose.connect(
   )
 
   await server.start()
-  server.applyMiddleware({ path:"/graphql",app })
+  server.applyMiddleware({ path: '/graphql', app })
 
   httpServer.listen(config.port, () => console.log(`Server is now running on http://localhost:${config.port}/graphql`))
 })()

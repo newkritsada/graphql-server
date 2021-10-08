@@ -1,4 +1,4 @@
-import mongoose from 'mongoose'
+import mongoose, { ObjectId } from 'mongoose'
 
 const Schema = mongoose.Schema
 
@@ -10,6 +10,7 @@ export interface Todo {
   startDate: Date
   endDate: Date
   groupName: string
+  groupId: ObjectId
   order: number
 }
 
@@ -28,11 +29,12 @@ const todoSchema = new Schema<Todo>({
   endDate: { type: Date },
   // groupId: { type: String, trim: true },
   groupName: { type: String, trim: true },
+  groupId: { type: Schema.Types.ObjectId },
   order: { type: Number },
 })
 
-todoSchema.virtual('todoList', {
-  ref: 'todoes',
+todoSchema.virtual('groupInfo', {
+  ref: 'groups',
   localField: 'groupId',
   foreignField: '_id',
   justOne: true,

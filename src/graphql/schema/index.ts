@@ -2,6 +2,7 @@ import { gql } from 'apollo-server'
 import resolvers from '../resolvers/index'
 import user from './user'
 import todo from './todo'
+import group from './group'
 
 const intitialType = gql`
   scalar Date
@@ -25,7 +26,7 @@ const intitialType = gql`
   }
 `
 
-const typeDefs = [intitialType, user, todo]
+const typeDefs = [intitialType, user, todo, group]
 
 const schema = {
   typeDefs,

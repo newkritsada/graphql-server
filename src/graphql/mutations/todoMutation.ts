@@ -3,17 +3,19 @@ import ErrorMessage from '../../helpers/error'
 import TodoModel, { Todo } from '../../models/TodoModel'
 
 export const createTodo = async (root, args) => {
-  const { groupName, input } = args
+  const { groupName, groupId, input } = args
   if (input.startDate && input.endDate) {
     if (input.startDate > input.endDate) ErrorMessage('startDate must not be more than endDate')
   }
   const todoMaxOrder = await TodoModel.findOne({ groupName }).sort('-order')
   input.order = todoMaxOrder ? todoMaxOrder.order + 1 : 1
-  return { status: PAYLOAD_STAATUS.SUCCESS, payload: await TodoModel.create({ ...input, groupName }) }
+  const newTodo = await TodoModel.create({ ...input, groupName, groupId })
+  const todo = await TodoModel.findById(newTodo._id).populate('groupInfo')
+  return { status: PAYLOAD_STAATUS.SUCCESS, payload: todo }
 }
 
 export const updateTodo = async (root, args) => {
-  const { todoId, groupName, order, input } = args
+  const { todoId, groupName, groupId, order, input } = args
   const oldTodo = await TodoModel.findByIdAndUpdate(todoId)
   if (!oldTodo) ErrorMessage('Todo not found.')
   //Validate Time
@@ -109,6 +111,7 @@ export const updateTodo = async (root, args) => {
     {
       ...input,
       groupName,
+      groupId,
       order:
         newTodoList && !newTodoList._id.equals(oldTodo._id)
           ? order > newTodoList.order
@@ -117,7 +120,7 @@ export const updateTodo = async (root, args) => {
           : 1,
     },
     { new: true }
-  )
+  ).populate('groupInfo')
 
   return { status: PAYLOAD_STAATUS.SUCCESS, payload: newTodo }
 }
@@ -134,6 +137,6 @@ export const deleteTodo = async (root, { todoId }) => {
       })
     )
   }
-  const afterDeleteTodo = await TodoModel.findByIdAndRemove(todoId, { new: true })
+  const afterDeleteTodo = await TodoModel.findByIdAndRemove(todoId, { new: true }).populate('groupInfo')
   return { status: PAYLOAD_STAATUS.SUCCESS, payload: afterDeleteTodo }
 }
