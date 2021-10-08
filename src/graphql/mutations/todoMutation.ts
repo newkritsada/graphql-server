@@ -3,19 +3,19 @@ import ErrorMessage from '../../helpers/error'
 import TodoModel, { Todo } from '../../models/TodoModel'
 
 export const createTodo = async (root, args) => {
-  const { groupName, groupId, input } = args
+  const { groupId, input } = args
   if (input.startDate && input.endDate) {
     if (input.startDate > input.endDate) ErrorMessage('startDate must not be more than endDate')
   }
-  const todoMaxOrder = await TodoModel.findOne({ groupName }).sort('-order')
+  const todoMaxOrder = await TodoModel.findOne({ groupId }).sort('-order')
   input.order = todoMaxOrder ? todoMaxOrder.order + 1 : 1
-  const newTodo = await TodoModel.create({ ...input, groupName, groupId })
+  const newTodo = await TodoModel.create({ ...input, groupId })
   const todo = await TodoModel.findById(newTodo._id).populate('groupInfo')
   return { status: PAYLOAD_STAATUS.SUCCESS, payload: todo }
 }
 
 export const updateTodo = async (root, args) => {
-  const { todoId, groupName, groupId, order, input } = args
+  const { todoId,  groupId, order, input } = args
   const oldTodo = await TodoModel.findByIdAndUpdate(todoId)
   if (!oldTodo) ErrorMessage('Todo not found.')
   //Validate Time
@@ -29,10 +29,10 @@ export const updateTodo = async (root, args) => {
     if (input?.endDate < oldTodo.startDate) ErrorMessage('endDate must not be less than startDate')
   }
 
-  if (groupName === oldTodo.groupName) {
+  if (groupId === oldTodo.groupId) {
     if (order > oldTodo.order) {
       const todoList = await TodoModel.find({
-        groupName,
+        groupId,
         order: { $gt: oldTodo.order, $lte: order },
       })
 
@@ -52,7 +52,7 @@ export const updateTodo = async (root, args) => {
     }
     if (order < oldTodo.order) {
       const todoList = await TodoModel.find({
-        groupName,
+        groupId,
         order: { $gte: order, $lt: oldTodo.order },
       })
       if (todoList.length > 0) {
@@ -72,7 +72,7 @@ export const updateTodo = async (root, args) => {
   } else {
     //change new group
     const todoListNewGroup = await TodoModel.find({
-      groupName,
+      groupId,
       order: { $gte: order },
     })
 
@@ -91,7 +91,7 @@ export const updateTodo = async (root, args) => {
     }
 
     //change old group
-    const todoListOldGroup = await TodoModel.find({ groupName: oldTodo.groupName, order: { $gt: oldTodo.order } })
+    const todoListOldGroup = await TodoModel.find({ groupId: oldTodo.groupId, order: { $gt: oldTodo.order } })
     Promise.all(
       todoListOldGroup.map(async (todo: Todo) => {
         return await TodoModel.findByIdAndUpdate(
@@ -104,13 +104,12 @@ export const updateTodo = async (root, args) => {
       })
     )
   }
-  const newTodoList = await TodoModel.findOne({ groupName }).sort('-order')
+  const newTodoList = await TodoModel.findOne({ groupId }).sort('-order')
 
   const newTodo = await TodoModel.findByIdAndUpdate(
     todoId,
     {
       ...input,
-      groupName,
       groupId,
       order:
         newTodoList && !newTodoList._id.equals(oldTodo._id)
@@ -128,7 +127,7 @@ export const updateTodo = async (root, args) => {
 export const deleteTodo = async (root, { todoId }) => {
   const todo = await TodoModel.findById(todoId)
   if (!todo) ErrorMessage('Todo not found.')
-  const todoList = await TodoModel.find({ groupName: todo.groupName, order: { $gt: todo.order } })
+  const todoList = await TodoModel.find({ groupId: todo.groupId, order: { $gt: todo.order } })
 
   if (todoList.length > 0) {
     Promise.all(

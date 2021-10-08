@@ -1,7 +1,7 @@
 import { gql } from 'apollo-server'
 
 const typeDefs = gql`
-  enum PiorityEnum {
+  enum PriorityEnum {
     LOW
     MEDIUM
     HIGHT
@@ -12,10 +12,9 @@ const typeDefs = gql`
     _id: ID
     topic: String
     detail: String
-    piority: PiorityEnum
+    priority: PriorityEnum
     startDate: Date
     endDate: Date
-    groupName: String
     groupId: String
     groupInfo: GroupType
     order: Number
@@ -39,19 +38,19 @@ const typeDefs = gql`
   input TodoInput {
     topic: String
     detail: String
-    piority: PiorityEnum
+    priority: PriorityEnum
     startDate: Date
     endDate: Date
   }
 
   type Query {
-    getTodoList(groupName: String): PayloadTodoList
+    getTodoList(groupId: String): PayloadTodoList
     getTodoById(todoId: String): PayloadTodo
   }
 
   type Mutation {
-    createTodo(groupName: String!, groupId: String!, input: TodoInput): PayloadTodo
-    updateTodo(todoId: String!, groupName: String!, groupId: String!, order: Number!, input: TodoInput): PayloadTodo
+    createTodo(groupId: String!, input: TodoInput): PayloadTodo
+    updateTodo(todoId: String!, groupId: String!, order: Number!, input: TodoInput): PayloadTodo
     deleteTodo(todoId: String!): PayloadTodo
   }
 `

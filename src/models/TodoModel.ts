@@ -6,15 +6,14 @@ export interface Todo {
   _id: string
   topic: string
   detail: string
-  piority: 'LOW' | 'MEDIUM' | 'HIGHT' | 'CRITICAL' | string
+  priority: 'LOW' | 'MEDIUM' | 'HIGHT' | 'CRITICAL' | string
   startDate: Date
   endDate: Date
-  groupName: string
   groupId: ObjectId
   order: number
 }
 
-const PIORITY = {
+const PRIORITY = {
   LOW: 'LOW',
   MEDIUM: 'MEDIUM',
   HIGHT: 'HIGHT',
@@ -24,11 +23,9 @@ const PIORITY = {
 const todoSchema = new Schema<Todo>({
   topic: { type: String, trim: true },
   detail: { type: String },
-  piority: { type: String, trim: true, enum: [PIORITY.LOW, PIORITY.MEDIUM, PIORITY.HIGHT, PIORITY.CRITICAL] },
+  priority: { type: String, trim: true, enum: [PRIORITY.LOW, PRIORITY.MEDIUM, PRIORITY.HIGHT, PRIORITY.CRITICAL] },
   startDate: { type: Date },
   endDate: { type: Date },
-  // groupId: { type: String, trim: true },
-  groupName: { type: String, trim: true },
   groupId: { type: Schema.Types.ObjectId },
   order: { type: Number },
 })
