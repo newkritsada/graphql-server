@@ -12,11 +12,11 @@ export const createProject = async (root, args) => {
       projectId: newProject._id,
     },
     {
-      title: 'Inprogress',
+      title: 'In Progress',
       projectId: newProject._id,
     },
     {
-      title: 'Success',
+      title: 'Done',
       projectId: newProject._id,
     },
   ])
