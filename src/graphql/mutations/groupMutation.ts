@@ -1,5 +1,6 @@
 import { PAYLOAD_STATUS } from '../../config/payloadStatus'
 import ErrorMessage from '../../helpers/error'
+
 import GroupModel, { Group } from '../../models/GroupModel'
 
 export const createGroup = async (root, args) => {
