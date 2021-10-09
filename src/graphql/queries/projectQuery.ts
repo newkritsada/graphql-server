@@ -10,8 +10,8 @@ export const getProjectList = async (root, args) => {
       populate: {
         path: 'todoList',
         match: todoPriority
-          ? { topic: { $regex: '.*' + todoTopic + '.*' }, priority: todoPriority }
-          : { topic: { $regex: '.*' + todoTopic + '.*' } },
+          ? { topic: { $regex: '.*' + todoTopic || '' + '.*' }, priority: todoPriority }
+          : { topic: { $regex: '.*' + todoTopic || '' + '.*' } },
         options: {
           sort: { order: 1 },
         },
@@ -30,8 +30,8 @@ export const getProjectById = async (root, { projectId, todoTopic, todoPriority 
       populate: {
         path: 'todoList',
         match: todoPriority
-          ? { topic: { $regex: '.*' + todoTopic + '.*' }, priority: todoPriority }
-          : { topic: { $regex: '.*' + todoTopic + '.*' } },
+          ? { topic: { $regex: '.*' + todoTopic || '' + '.*' }, priority: todoPriority }
+          : { topic: { $regex: '.*' + todoTopic || '' + '.*' } },
         options: {
           sort: { order: 1 },
         },

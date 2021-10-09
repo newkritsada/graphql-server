@@ -4,11 +4,11 @@ import TodoModel from '../../models/TodoModel'
 export const getTodoList = async (root, { groupId, topic }) => {
   let todoList
   if (groupId)
-    todoList = await TodoModel.find({ groupId, topic: { $regex: '.*' + topic + '.*' } })
+    todoList = await TodoModel.find({ groupId, topic: { $regex: '.*' + topic || '' + '.*' } })
       .sort({ order: 1 })
       .populate('groupInfo')
   else
-    todoList = await TodoModel.find({ topic: { $regex: '.*' + topic + '.*' } })
+    todoList = await TodoModel.find({ topic: { $regex: '.*' + topic || '' + '.*' } })
       .sort({ order: 1 })
       .populate('groupInfo')
   return { status: PAYLOAD_STATUS.SUCCESS, payload: todoList }
