@@ -25,12 +25,11 @@ const typeDefs = gql`
     name: String
     description: String
     category: String
-    
   }
 
   type Query {
-    getProjectList: PayloadProjectList
-    getProjectById(projectId: String): PayloadProject
+    getProjectList(todoTopic: String): PayloadProjectList
+    getProjectById(projectId: String!, todoTopic: String): PayloadProject
   }
 
   type Mutation {

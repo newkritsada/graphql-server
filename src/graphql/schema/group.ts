@@ -4,6 +4,7 @@ const typeDefs = gql`
   type GroupType {
     _id: ID
     title: String
+    order: Number
     todoList: [TodoType]
     projectId: String
     projectDetail: ProjectType

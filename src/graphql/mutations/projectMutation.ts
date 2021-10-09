@@ -10,20 +10,23 @@ export const createProject = async (root, args) => {
   await GroupModel.create([
     {
       title: 'To do',
+      order: 1,
       projectId: newProject._id,
     },
     {
       title: 'In Progress',
+      order: 2,
       projectId: newProject._id,
     },
     {
       title: 'Done',
+      order: 3,
       projectId: newProject._id,
     },
   ])
   const project = await ProjectModel.findById(newProject._id).populate({
     path: 'groupList',
-    options: { sort: { updateAt: 1 }, populate: { path: 'todoList', options: { sort: { order: 1 } } } },
+    options: { sort: { order: 1 }, populate: { path: 'todoList', options: { sort: { order: 1 } } } },
   })
   return { status: PAYLOAD_STATUS.SUCCESS, payload: project }
 }
@@ -41,7 +44,7 @@ export const updateProject = async (root, args) => {
     { new: true }
   ).populate({
     path: 'groupList',
-    options: { sort: { updateAt: 1 }, populate: { path: 'todoList', options: { sort: { order: 1 } } } },
+    options: { sort: { order: 1 }, populate: { path: 'todoList', options: { sort: { order: 1 } } } },
   })
 
   return { status: PAYLOAD_STATUS.SUCCESS, payload: newProject }
