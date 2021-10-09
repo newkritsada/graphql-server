@@ -10,14 +10,16 @@ const typeDefs = gql`
 
   type TodoType {
     _id: ID
+    order: Number
     topic: String
     detail: String
     priority: PriorityEnum
     startDate: Date
-    endDate: Date
+    dueDate: Date
     groupId: String
     groupInfo: GroupType
-    order: Number
+    createdAt: Date
+    updatedAt: Date
   }
 
   type PayloadGroup {
@@ -40,7 +42,7 @@ const typeDefs = gql`
     detail: String
     priority: PriorityEnum
     startDate: Date
-    endDate: Date
+    dueDate: Date
   }
 
   type Query {

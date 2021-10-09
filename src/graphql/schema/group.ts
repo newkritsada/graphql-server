@@ -7,6 +7,8 @@ const typeDefs = gql`
     todoList: [TodoType]
     projectId: String
     projectDetail: ProjectType
+    createdAt: Date
+    updatedAt: Date
   }
 
   type PayloadGroup {

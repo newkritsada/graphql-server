@@ -8,7 +8,7 @@ export interface Todo {
   detail: string
   priority: 'LOW' | 'MEDIUM' | 'HIGHT' | 'CRITICAL' | string
   startDate: Date
-  endDate: Date
+  dueDate: Date
   groupId: ObjectId
   order: number
 }
@@ -26,7 +26,7 @@ const todoSchema = new Schema<Todo>(
     detail: { type: String },
     priority: { type: String, trim: true, enum: [PRIORITY.LOW, PRIORITY.MEDIUM, PRIORITY.HIGHT, PRIORITY.CRITICAL] },
     startDate: { type: Date },
-    endDate: { type: Date },
+    dueDate: { type: Date },
     groupId: { type: Schema.Types.ObjectId },
     order: { type: Number },
   },

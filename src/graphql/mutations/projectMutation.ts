@@ -2,6 +2,7 @@ import { PAYLOAD_STATUS } from '../../config/payloadStatus'
 import ErrorMessage from '../../helpers/error'
 import ProjectModel from '../../models/ProjectModel'
 import GroupModel from '../../models/GroupModel'
+import TodoModel from '../../models/TodoModel'
 
 export const createProject = async (root, args) => {
   const { input } = args
@@ -20,8 +21,7 @@ export const createProject = async (root, args) => {
       projectId: newProject._id,
     },
   ])
-  const project = await ProjectModel.findById(newProject._id)
-    .populate({
+  const project = await ProjectModel.findById(newProject._id).populate({
     path: 'groupList',
     options: { sort: { updateAt: 1 }, populate: { path: 'todoList', options: { sort: { order: 1 } } } },
   })
@@ -39,8 +39,7 @@ export const updateProject = async (root, args) => {
       ...input,
     },
     { new: true }
-  )
-    .populate({
+  ).populate({
     path: 'groupList',
     options: { sort: { updateAt: 1 }, populate: { path: 'todoList', options: { sort: { order: 1 } } } },
   })
@@ -52,10 +51,11 @@ export const deleteProject = async (root, { projectId }) => {
   const project = await ProjectModel.findById(projectId)
   if (!project) ErrorMessage('Project not found.')
 
-  const afterDeleteProject = await ProjectModel.findByIdAndRemove(projectId, { new: true })
-    .populate({
+  const afterDeleteProject = await ProjectModel.findByIdAndRemove(projectId, { new: true }).populate({
     path: 'groupList',
-    options: { sort: { updateAt: 1 }, populate: { path: 'todoList', options: { sort: { order: 1 } } } },
   })
+  const groupIds = afterDeleteProject.groupList.map((group) => group._id)
+  await GroupModel.deleteMany({ projectId: afterDeleteProject._id })
+  await TodoModel.deleteMany({ groupId: { $in: groupIds } })
   return { status: PAYLOAD_STATUS.SUCCESS, payload: afterDeleteProject }
 }

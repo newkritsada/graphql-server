@@ -7,6 +7,8 @@ const typeDefs = gql`
     description: String
     category: String
     groupList: [GroupType]
+    createdAt: Date
+    updatedAt: Date
   }
 
   type PayloadProject {
@@ -23,6 +25,7 @@ const typeDefs = gql`
     name: String
     description: String
     category: String
+    
   }
 
   type Query {

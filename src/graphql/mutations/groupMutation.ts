@@ -1,7 +1,8 @@
 import { PAYLOAD_STATUS } from '../../config/payloadStatus'
 import ErrorMessage from '../../helpers/error'
 
-import GroupModel, { Group } from '../../models/GroupModel'
+import GroupModel from '../../models/GroupModel'
+import TodoModel from '../../models/TodoModel'
 
 export const createGroup = async (root, args) => {
   const { input } = args
@@ -34,5 +35,7 @@ export const deleteGroup = async (root, { groupId }) => {
     path: 'todoList',
     options: { sort: { order: 1 } },
   })
+  await TodoModel.deleteMany({ groupId: afterDeleteGroup._id })
+
   return { status: PAYLOAD_STATUS.SUCCESS, payload: afterDeleteGroup }
 }

@@ -4,8 +4,8 @@ import TodoModel, { Todo } from '../../models/TodoModel'
 
 export const createTodo = async (root, args) => {
   const { groupId, input } = args
-  if (input.startDate && input.endDate) {
-    if (input.startDate > input.endDate) ErrorMessage('startDate must not be more than endDate')
+  if (input.startDate && input.dueDate) {
+    if (input.startDate > input.dueDate) ErrorMessage('startDate must not be more than dueDate')
   }
   const todoMaxOrder = await TodoModel.findOne({ groupId }).sort('-order')
   input.order = todoMaxOrder ? todoMaxOrder.order + 1 : 1
@@ -19,14 +19,14 @@ export const updateTodo = async (root, args) => {
   const oldTodo = await TodoModel.findByIdAndUpdate(todoId)
   if (!oldTodo) ErrorMessage('Todo not found.')
   //Validate Time
-  if (input?.startDate && input?.endDate) {
-    if (input?.startDate > input?.endDate) ErrorMessage('startDate must not be more than endDate')
+  if (input?.startDate && input?.dueDate) {
+    if (input?.startDate > input?.dueDate) ErrorMessage('startDate must not be more than dueDate')
   }
-  if (input?.startDate && !input?.endDate) {
-    if (input?.startDate > oldTodo.endDate) ErrorMessage('startDate must not be more than endDate')
+  if (input?.startDate && !input?.dueDate) {
+    if (input?.startDate > oldTodo.dueDate) ErrorMessage('startDate must not be more than dueDate')
   }
-  if (input?.endDate && !input?.startDate) {
-    if (input?.endDate < oldTodo.startDate) ErrorMessage('endDate must not be less than startDate')
+  if (input?.dueDate && !input?.startDate) {
+    if (input?.dueDate < oldTodo.startDate) ErrorMessage('dueDate must not be less than startDate')
   }
 
   if (groupId === oldTodo.groupId) {
