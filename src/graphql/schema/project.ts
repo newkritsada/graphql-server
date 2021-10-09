@@ -28,8 +28,8 @@ const typeDefs = gql`
   }
 
   type Query {
-    getProjectList(todoTopic: String, priority: PriorityEnum): PayloadProjectList
-    getProjectById(projectId: String!, todoTopic: String, priority: PriorityEnum): PayloadProject
+    getProjectList(todoTopic: String, todoPriority: PriorityEnum): PayloadProjectList
+    getProjectById(projectId: String!, todoTopic: String, todoPriority: PriorityEnum): PayloadProject
   }
 
   type Mutation {
