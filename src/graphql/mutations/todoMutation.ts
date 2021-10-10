@@ -15,19 +15,10 @@ export const createTodo = async (root, args) => {
 }
 
 export const updateTodo = async (root, args) => {
-  const { todoId,  groupId, order, input } = args
+  const { todoId, groupId, order, input } = args
   const oldTodo = await TodoModel.findByIdAndUpdate(todoId)
   if (!oldTodo) ErrorMessage('Todo not found.')
   //Validate Time
-  if (input?.startDate && input?.dueDate) {
-    if (input?.startDate > input?.dueDate) ErrorMessage('startDate must not be more than dueDate')
-  }
-  if (input?.startDate && !input?.dueDate) {
-    if (input?.startDate > oldTodo.dueDate) ErrorMessage('startDate must not be more than dueDate')
-  }
-  if (input?.dueDate && !input?.startDate) {
-    if (input?.dueDate < oldTodo.startDate) ErrorMessage('dueDate must not be less than startDate')
-  }
 
   if (groupId === oldTodo.groupId) {
     if (order > oldTodo.order) {
@@ -49,8 +40,7 @@ export const updateTodo = async (root, args) => {
           })
         )
       }
-    }
-    if (order < oldTodo.order) {
+    } else if (order < oldTodo.order) {
       const todoList = await TodoModel.find({
         groupId,
         order: { $gte: order, $lt: oldTodo.order },
