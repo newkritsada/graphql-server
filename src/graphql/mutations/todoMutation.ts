@@ -20,7 +20,7 @@ export const updateTodo = async (root, args) => {
   if (!oldTodo) ErrorMessage('Todo not found.')
   //Validate Time
 
-  if (groupId === oldTodo.groupId) {
+  if (oldTodo.groupId.equals(groupId)) {
     if (order > oldTodo.order) {
       const todoList = await TodoModel.find({
         groupId,
@@ -95,18 +95,20 @@ export const updateTodo = async (root, args) => {
     )
   }
   const newTodoList = await TodoModel.findOne({ groupId }).sort('-order')
-
   const newTodo = await TodoModel.findByIdAndUpdate(
     todoId,
     {
       ...input,
       groupId,
-      order:
-        newTodoList && !newTodoList._id.equals(oldTodo._id)
-          ? order > newTodoList.order
-            ? newTodoList.order + 1
-            : order
-          : 1,
+      order: oldTodo.groupId.equals(groupId)
+        ? order > newTodoList.order
+          ? newTodoList.order + 1
+          : order
+        : newTodoList
+        ? order > newTodoList.order
+          ? newTodoList.order + 1
+          : order
+        : 1,
     },
     { new: true }
   ).populate('groupInfo')
